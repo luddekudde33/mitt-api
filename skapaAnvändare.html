@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Skapa Användare</title>
+  </head>
+  <body>
+    <h1>Skapa ny användare</h1>
+    <form id="createUserForm">
+      <input
+        type="text"
+        id="username"
+        placeholder="Användarnamn"
+        required
+      /><br />
+      <input type="text" id="first_name" placeholder="Förnamn" required /><br />
+      <input
+        type="text"
+        id="last_name"
+        placeholder="Efternamn"
+        required
+      /><br />
+      <input
+        type="password"
+        id="password"
+        placeholder="Lösenord"
+        required
+      /><br />
+      <button type="submit">Skapa Användare</button>
+    </form>
+
+    <script>
+      document
+        .getElementById("createUserForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          var username = document.getElementById("username").value;
+          var first_name = document.getElementById("first_name").value;
+          var last_name = document.getElementById("last_name").value;
+          var password = document.getElementById("password").value;
+
+          fetch("http://localhost:3000/users", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              username: username,
+              first_name: first_name,
+              last_name: last_name,
+              password: password,
+            }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              console.log("Success:", data);
+              alert("Användare skapad!");
+              document.getElementById("createUserForm").reset();
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+              alert("Fel vid skapande av användare!");
+            });
+        });
+    </script>
+  </body>
+</html>
